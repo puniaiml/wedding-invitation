@@ -10,21 +10,28 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Enhanced CSS with beautiful animations and full responsiveness
+# Enhanced CSS with mobile-first approach and better responsiveness
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@300;400;600&display=swap');
+    
+    /* Reset and base styles */
+    * {
+        box-sizing: border-box;
+    }
     
     /* Hide Streamlit elements */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
+    .stDeployButton {display: none;}
     
-    /* Animated background */
+    /* Animated background - optimized for mobile */
     .stApp {
         background: linear-gradient(-45deg, #0a0e27, #1a1f3a, #1e3c72, #2a5298);
         background-size: 400% 400%;
         animation: gradientShift 15s ease infinite;
+        padding: 0.5rem 0;
     }
     
     @keyframes gradientShift {
@@ -51,22 +58,28 @@ st.markdown("""
     
     @keyframes pulse {
         0%, 100% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.05); opacity: 0.8; }
+        50% { transform: scale(1.03); opacity: 0.9; }
     }
     
     @keyframes glow {
-        0%, 100% { box-shadow: 0 0 20px rgba(74, 144, 226, 0.4), 0 0 40px rgba(74, 144, 226, 0.2); }
-        50% { box-shadow: 0 0 30px rgba(74, 144, 226, 0.6), 0 0 60px rgba(74, 144, 226, 0.4); }
+        0%, 100% { box-shadow: 0 0 15px rgba(74, 144, 226, 0.3), 0 0 30px rgba(74, 144, 226, 0.15); }
+        50% { box-shadow: 0 0 25px rgba(74, 144, 226, 0.5), 0 0 50px rgba(74, 144, 226, 0.3); }
     }
     
-    /* Header styling with animation */
+    /* Container adjustments - mobile first */
+    .block-container {
+        padding: 1rem 0.75rem !important;
+        max-width: 100% !important;
+    }
+    
+    /* Header styling - fully responsive */
     .wedding-header {
         text-align: center;
-        padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 3vw, 2rem);
+        padding: 1.5rem 1rem;
         background: linear-gradient(135deg, rgba(30, 60, 114, 0.95) 0%, rgba(42, 82, 152, 0.95) 50%, rgba(30, 60, 114, 0.95) 100%);
-        border-radius: clamp(15px, 3vw, 25px);
-        margin: clamp(1rem, 2vw, 2rem) clamp(0.5rem, 2vw, 1rem) clamp(1.5rem, 3vw, 3rem);
-        box-shadow: 0 15px 50px rgba(42, 82, 152, 0.5);
+        border-radius: 15px;
+        margin: 0.5rem 0 1rem;
+        box-shadow: 0 10px 30px rgba(42, 82, 152, 0.4);
         border: 2px solid rgba(74, 144, 226, 0.6);
         backdrop-filter: blur(10px);
         animation: fadeInUp 1s ease-out, glow 3s ease-in-out infinite;
@@ -86,49 +99,52 @@ st.markdown("""
     }
     
     .couple-names {
-        font-size: clamp(2rem, 6vw, 4.5rem);
+        font-size: 2rem;
         font-weight: bold;
         color: #ffffff;
         font-family: 'Great Vibes', cursive;
-        text-shadow: 3px 3px 12px rgba(74, 144, 226, 0.8), 0 0 30px rgba(255, 255, 255, 0.3);
-        margin: clamp(0.8rem, 2vw, 1.5rem) 0;
-        letter-spacing: 2px;
+        text-shadow: 2px 2px 8px rgba(74, 144, 226, 0.8), 0 0 20px rgba(255, 255, 255, 0.3);
+        margin: 0.8rem 0;
+        letter-spacing: 1px;
         animation: fadeInUp 1.5s ease-out 0.3s both;
         position: relative;
         z-index: 1;
         line-height: 1.3;
+        word-wrap: break-word;
     }
     
     .wedding-tagline {
-        font-size: clamp(1rem, 2.5vw, 1.3rem);
+        font-size: 1rem;
         color: #e8f4f8;
         font-family: 'Cormorant Garamond', serif;
         font-style: italic;
-        margin: clamp(0.5rem, 1.5vw, 1rem) 0;
+        margin: 0.5rem 0;
         animation: fadeInUp 1.5s ease-out 0.6s both;
         position: relative;
         z-index: 1;
-        padding: 0 1rem;
+        padding: 0 0.5rem;
+        line-height: 1.5;
     }
     
     .wedding-date {
-        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        font-size: 1.2rem;
         color: #ffffff;
         font-weight: 600;
         font-family: 'Playfair Display', serif;
-        margin-top: clamp(0.5rem, 1.5vw, 1rem);
+        margin-top: 0.5rem;
         animation: fadeInUp 1.5s ease-out 0.9s both;
         position: relative;
         z-index: 1;
     }
     
-    /* Mandala animations */
+    /* Mandala animations - responsive */
     .mandala {
-        font-size: clamp(1.5rem, 4vw, 3rem);
+        font-size: 1.5rem;
         text-align: center;
-        margin: clamp(0.8rem, 2vw, 1.5rem) 0;
-        filter: drop-shadow(0 0 15px rgba(74, 144, 226, 0.6));
+        margin: 0.8rem 0;
+        filter: drop-shadow(0 0 10px rgba(74, 144, 226, 0.5));
         animation: pulse 2s ease-in-out infinite;
+        letter-spacing: 0.3rem;
     }
     
     .mandala-top {
@@ -139,16 +155,15 @@ st.markdown("""
         animation: fadeInUp 1s ease-out 1.2s both;
     }
     
-    /* Event cards with hover effects */
+    /* Event cards - mobile optimized */
     .event-card {
         background: linear-gradient(135deg, rgba(26, 31, 58, 0.95) 0%, rgba(42, 53, 85, 0.95) 100%);
-        padding: clamp(1.5rem, 3vw, 2.5rem);
-        border-radius: clamp(12px, 2.5vw, 20px);
-        box-shadow: 0 10px 30px rgba(74, 144, 226, 0.3);
-        margin: clamp(1rem, 2vw, 2rem) clamp(0.5rem, 1vw, 0);
-        border-left: clamp(3px, 0.5vw, 5px) solid #4a90e2;
+        padding: 1.25rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(74, 144, 226, 0.25);
+        margin: 0.75rem 0;
         border: 2px solid rgba(74, 144, 226, 0.3);
-        transition: all 0.4s ease;
+        transition: all 0.3s ease;
         animation: fadeInUp 0.8s ease-out both;
         backdrop-filter: blur(10px);
         position: relative;
@@ -166,68 +181,65 @@ st.markdown("""
         transition: left 0.5s ease;
     }
     
-    .event-card:hover::before {
+    .event-card:active::before {
         left: 100%;
-    }
-    
-    .event-card:hover {
-        transform: translateY(-5px) scale(1.01);
-        box-shadow: 0 20px 50px rgba(74, 144, 226, 0.5);
-        border-color: #4a90e2;
     }
     
     .event-title {
         color: #4a90e2;
-        font-size: clamp(1.5rem, 3.5vw, 2.3rem);
+        font-size: 1.5rem;
         font-weight: bold;
-        margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
+        margin-bottom: 0.75rem;
         font-family: 'Playfair Display', serif;
-        text-shadow: 2px 2px 8px rgba(74, 144, 226, 0.4);
+        text-shadow: 2px 2px 6px rgba(74, 144, 226, 0.4);
         line-height: 1.3;
+        word-wrap: break-word;
     }
     
     .event-detail {
-        font-size: clamp(1rem, 2vw, 1.2rem);
-        margin: clamp(0.5rem, 1vw, 0.8rem) 0;
+        font-size: 1rem;
+        margin: 0.5rem 0;
         color: #e8f4f8;
         font-family: 'Cormorant Garamond', serif;
         line-height: 1.6;
+        word-wrap: break-word;
     }
     
-    /* Divider with animation */
+    /* Divider */
     .divider {
         text-align: center;
-        margin: clamp(1.5rem, 3vw, 3rem) 0;
-        font-size: clamp(1.5rem, 3vw, 2.5rem);
+        margin: 1.5rem 0;
+        font-size: 1.5rem;
         color: #4a90e2;
         animation: pulse 2s ease-in-out infinite;
-        filter: drop-shadow(0 0 10px rgba(74, 144, 226, 0.5));
+        filter: drop-shadow(0 0 8px rgba(74, 144, 226, 0.5));
     }
     
     /* Section headers */
     .section-header {
         text-align: center;
         color: #ffffff;
-        font-size: clamp(2rem, 5vw, 3.5rem);
-        margin: clamp(2rem, 4vw, 3rem) 0 clamp(1rem, 2vw, 2rem) 0;
-        text-shadow: 3px 3px 10px rgba(74, 144, 226, 0.6);
+        font-size: 1.8rem;
+        margin: 1.5rem 0 1rem 0;
+        text-shadow: 2px 2px 8px rgba(74, 144, 226, 0.6);
         font-family: 'Playfair Display', serif;
         animation: fadeInUp 0.8s ease-out both;
-        padding: 0 1rem;
+        padding: 0 0.5rem;
         line-height: 1.3;
+        word-wrap: break-word;
     }
     
-    /* Countdown box with animation */
+    /* Countdown box */
     .countdown-box {
         text-align: center;
-        margin-top: clamp(1rem, 2vw, 2rem);
+        margin-top: 1rem;
         background: linear-gradient(135deg, rgba(42, 82, 152, 0.95) 0%, rgba(30, 60, 114, 0.95) 100%);
-        padding: clamp(1.5rem, 3vw, 2rem);
-        border-radius: clamp(12px, 2.5vw, 20px);
+        padding: 1.25rem 1rem;
+        border-radius: 12px;
         color: white;
-        font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+        font-size: 1.1rem;
         font-weight: bold;
-        box-shadow: 0 10px 35px rgba(74, 144, 226, 0.5);
+        box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
         border: 2px solid #4a90e2;
         animation: fadeInUp 1s ease-out 1.5s both, glow 2s ease-in-out infinite;
         font-family: 'Playfair Display', serif;
@@ -235,172 +247,442 @@ st.markdown("""
     }
     
     .countdown-number {
-        font-size: clamp(2.5rem, 6vw, 3.5rem);
+        font-size: 2.5rem;
         color: #ffd700;
-        text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
         display: block;
-        margin: clamp(0.3rem, 1vw, 0.5rem) 0;
+        margin: 0.3rem 0;
     }
     
     /* Info box */
     .info-box {
         text-align: center;
         background: linear-gradient(135deg, rgba(26, 31, 58, 0.95) 0%, rgba(42, 53, 85, 0.95) 100%);
-        padding: clamp(1.5rem, 3vw, 2.5rem);
-        border-radius: clamp(12px, 2.5vw, 20px);
-        box-shadow: 0 10px 30px rgba(74, 144, 226, 0.4);
+        padding: 1.5rem 1rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
         border: 2px solid rgba(74, 144, 226, 0.3);
         color: #e8f4f8;
-        font-size: clamp(1rem, 2vw, 1.2rem);
-        line-height: 1.8;
+        font-size: 1rem;
+        line-height: 1.7;
         animation: fadeInUp 1s ease-out both;
         font-family: 'Cormorant Garamond', serif;
         backdrop-filter: blur(10px);
         transition: all 0.3s ease;
-        margin: clamp(0.5rem, 1vw, 0) clamp(0.5rem, 1vw, 0);
-    }
-    
-    .info-box:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(74, 144, 226, 0.5);
+        margin: 0.5rem 0;
     }
     
     .quote-text {
-        font-size: clamp(1.2rem, 2.8vw, 1.5rem);
+        font-size: 1.2rem;
         font-style: italic;
         color: #ffffff;
         font-family: 'Great Vibes', cursive;
-        margin: clamp(0.5rem, 1.5vw, 1rem) 0;
-        text-shadow: 2px 2px 8px rgba(74, 144, 226, 0.4);
+        margin: 0.5rem 0;
+        text-shadow: 2px 2px 6px rgba(74, 144, 226, 0.4);
         line-height: 1.4;
     }
     
-    /* Video container */
+    /* Video container - FIXED for mobile */
     .video-container {
-        margin: clamp(1rem, 2vw, 2rem) clamp(0.5rem, 1vw, 0);
-        padding: clamp(1rem, 2vw, 2rem);
+        margin: 1rem 0;
+        padding: 1rem;
         background: linear-gradient(135deg, rgba(26, 31, 58, 0.95) 0%, rgba(42, 53, 85, 0.95) 100%);
-        border-radius: clamp(12px, 2.5vw, 20px);
-        box-shadow: 0 15px 40px rgba(74, 144, 226, 0.4);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(74, 144, 226, 0.3);
         border: 2px solid rgba(74, 144, 226, 0.4);
         animation: fadeInUp 1s ease-out both;
         backdrop-filter: blur(10px);
         transition: all 0.3s ease;
     }
     
-    .video-container:hover {
-        box-shadow: 0 20px 50px rgba(74, 144, 226, 0.6);
-        transform: translateY(-5px);
+    .video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        height: 0;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        background: #000;
     }
     
-    /* Map button styling */
+    .video-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+    
+    /* Map button - mobile optimized */
     .map-button {
         background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
         color: white;
-        padding: clamp(12px, 2vw, 15px) clamp(20px, 3vw, 30px);
+        padding: 14px 20px;
         border: 2px solid #4a90e2;
-        border-radius: clamp(8px, 1.5vw, 12px);
+        border-radius: 10px;
         cursor: pointer;
-        font-size: clamp(1rem, 2vw, 1.1rem);
+        font-size: 1rem;
         width: 100%;
-        margin-top: clamp(10px, 2vw, 15px);
+        margin-top: 10px;
         transition: all 0.3s ease;
         font-family: 'Cormorant Garamond', serif;
         font-weight: 600;
-        box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
         text-decoration: none;
         display: inline-block;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
-    .map-button:hover {
+    .map-button:active {
         background: linear-gradient(135deg, #3a62a8 0%, #2e4c82 100%);
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(74, 144, 226, 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(74, 144, 226, 0.5);
     }
     
     /* Contact section */
     .contact-item {
-        font-size: clamp(1rem, 2vw, 1.2rem);
-        line-height: 2;
-        margin: clamp(0.5rem, 1vw, 0.8rem) 0;
+        font-size: 1rem;
+        line-height: 1.8;
+        margin: 0.5rem 0;
+    }
+    
+    .contact-item p {
+        margin: 0.5rem 0;
+        word-wrap: break-word;
     }
     
     .closing-message {
-        margin-top: clamp(1rem, 2vw, 2rem);
-        font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+        margin-top: 1rem;
+        font-size: 1.3rem;
         font-family: 'Great Vibes', cursive;
         color: #ffd700;
-        text-shadow: 2px 2px 8px rgba(255, 215, 0, 0.4);
+        text-shadow: 2px 2px 6px rgba(255, 215, 0, 0.4);
     }
     
     /* Footer copyright */
     .copyright {
         text-align: center;
         color: rgba(232, 244, 248, 0.5);
-        font-size: clamp(0.7rem, 1.5vw, 0.85rem);
-        margin-top: clamp(2rem, 3vw, 3rem);
-        padding: clamp(0.5rem, 1vw, 1rem);
+        font-size: 0.75rem;
+        margin-top: 2rem;
+        padding: 1rem 0.5rem;
         font-family: 'Cormorant Garamond', serif;
     }
     
-    /* Responsive container adjustments */
-    .block-container {
-        padding-left: clamp(1rem, 3vw, 5rem) !important;
-        padding-right: clamp(1rem, 3vw, 5rem) !important;
-        max-width: 100% !important;
+    /* Streamlit specific fixes */
+    .element-container {
+        width: 100% !important;
     }
     
-    /* Mobile optimizations */
-    @media (max-width: 768px) {
-        .stApp {
-            padding: 0.5rem 0;
-        }
-        
-        .event-card:hover {
-            transform: translateY(-3px) scale(1);
-        }
-        
-        /* Better touch targets on mobile */
-        .map-button {
-            min-height: 48px;
-        }
-        
-        /* Adjust map container for mobile */
-        iframe {
-            min-height: 250px;
-        }
+    [data-testid="stHorizontalBlock"] {
+        gap: 0.5rem !important;
     }
     
-    /* Extra small devices */
-    @media (max-width: 480px) {
+    /* Map container fixes */
+    [data-testid="stDeckGlJsonChart"] {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        margin: 0.75rem 0;
+        min-height: 200px !important;
+    }
+    
+    /* ===== TABLET STYLES (768px and up) ===== */
+    @media (min-width: 768px) {
+        .block-container {
+            padding: 1.5rem 2rem !important;
+        }
+        
+        .wedding-header {
+            padding: 2rem 1.5rem;
+            border-radius: 20px;
+            margin: 1rem 0 2rem;
+        }
+        
         .couple-names {
-            letter-spacing: 1px;
+            font-size: 3rem;
+            letter-spacing: 2px;
+        }
+        
+        .wedding-tagline {
+            font-size: 1.15rem;
+        }
+        
+        .wedding-date {
+            font-size: 1.5rem;
         }
         
         .mandala {
-            letter-spacing: 3px;
+            font-size: 2rem;
+        }
+        
+        .event-card {
+            padding: 1.75rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(74, 144, 226, 0.5);
+        }
+        
+        .event-card:hover::before {
+            left: 100%;
+        }
+        
+        .event-title {
+            font-size: 1.8rem;
+        }
+        
+        .event-detail {
+            font-size: 1.1rem;
+        }
+        
+        .section-header {
+            font-size: 2.5rem;
+            margin: 2rem 0 1.5rem 0;
+        }
+        
+        .countdown-box {
+            padding: 1.5rem;
+            font-size: 1.4rem;
+        }
+        
+        .countdown-number {
+            font-size: 3rem;
+        }
+        
+        .info-box {
+            padding: 2rem 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .info-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(74, 144, 226, 0.5);
+        }
+        
+        .quote-text {
+            font-size: 1.4rem;
+        }
+        
+        .video-container {
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .video-container:hover {
+            box-shadow: 0 15px 40px rgba(74, 144, 226, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        .map-button:hover {
+            background: linear-gradient(135deg, #3a62a8 0%, #2e4c82 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.5);
+        }
+        
+        .contact-item {
+            font-size: 1.1rem;
+        }
+        
+        .closing-message {
+            font-size: 1.6rem;
+        }
+        
+        [data-testid="stDeckGlJsonChart"] {
+            min-height: 250px !important;
         }
     }
     
-    /* Tablet landscape */
-    @media (min-width: 768px) and (max-width: 1024px) {
+    /* ===== DESKTOP STYLES (1024px and up) ===== */
+    @media (min-width: 1024px) {
         .block-container {
-            padding-left: 2rem !important;
-            padding-right: 2rem !important;
+            padding: 2rem 3rem !important;
+        }
+        
+        .wedding-header {
+            padding: 2.5rem 2rem;
+            margin: 1.5rem 0 2.5rem;
+        }
+        
+        .couple-names {
+            font-size: 4rem;
+        }
+        
+        .wedding-tagline {
+            font-size: 1.25rem;
+        }
+        
+        .wedding-date {
+            font-size: 1.7rem;
+        }
+        
+        .mandala {
+            font-size: 2.5rem;
+        }
+        
+        .event-card {
+            padding: 2rem;
+            border-radius: 18px;
+            margin: 1.5rem 0;
+        }
+        
+        .event-title {
+            font-size: 2rem;
+        }
+        
+        .event-detail {
+            font-size: 1.15rem;
+        }
+        
+        .section-header {
+            font-size: 3rem;
+            margin: 2.5rem 0 1.5rem 0;
+        }
+        
+        .countdown-box {
+            padding: 1.75rem;
+            font-size: 1.6rem;
+        }
+        
+        .countdown-number {
+            font-size: 3.5rem;
+        }
+        
+        .info-box {
+            padding: 2.5rem 2rem;
+            font-size: 1.15rem;
+        }
+        
+        .quote-text {
+            font-size: 1.45rem;
+        }
+        
+        .video-container {
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .contact-item {
+            font-size: 1.15rem;
+        }
+        
+        .closing-message {
+            font-size: 1.7rem;
+        }
+        
+        [data-testid="stDeckGlJsonChart"] {
+            min-height: 300px !important;
         }
     }
     
-    /* Large screens */
+    /* ===== LARGE DESKTOP STYLES (1400px and up) ===== */
     @media (min-width: 1400px) {
         .block-container {
             max-width: 1400px !important;
             margin: 0 auto;
+            padding: 2rem 5rem !important;
+        }
+        
+        .wedding-header {
+            padding: 3rem 2.5rem;
+        }
+        
+        .couple-names {
+            font-size: 4.5rem;
+        }
+        
+        .wedding-tagline {
+            font-size: 1.3rem;
+        }
+        
+        .wedding-date {
+            font-size: 1.8rem;
+        }
+        
+        .mandala {
+            font-size: 3rem;
+        }
+        
+        .event-card {
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+        
+        .event-title {
+            font-size: 2.3rem;
+        }
+        
+        .event-detail {
+            font-size: 1.2rem;
+        }
+        
+        .section-header {
+            font-size: 3.5rem;
+            margin: 3rem 0 2rem 0;
+        }
+        
+        .countdown-box {
+            padding: 2rem;
+            font-size: 1.8rem;
+        }
+        
+        .info-box {
+            padding: 3rem 2.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .quote-text {
+            font-size: 1.5rem;
+        }
+        
+        .video-container {
+            padding: 2rem;
+        }
+        
+        .contact-item {
+            font-size: 1.2rem;
+        }
+        
+        .closing-message {
+            font-size: 1.8rem;
+        }
+    }
+    
+    /* Extra small device optimizations */
+    @media (max-width: 380px) {
+        .couple-names {
+            font-size: 1.75rem;
+        }
+        
+        .wedding-tagline {
+            font-size: 0.95rem;
+        }
+        
+        .mandala {
+            font-size: 1.3rem;
+            letter-spacing: 0.2rem;
+        }
+        
+        .event-title {
+            font-size: 1.3rem;
+        }
+        
+        .event-detail {
+            font-size: 0.95rem;
         }
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Header Section with enhanced design
+# Header Section
 st.markdown("""
 <div class="wedding-header">
     <div class="mandala mandala-top">🕉️ ✨ 🪔 ✨ 🕉️</div>
@@ -414,66 +696,57 @@ st.markdown("""
 # Save the Date Section
 st.markdown('<div class="divider">❀ ✦ ❀</div>', unsafe_allow_html=True)
 
-# Responsive column layout
-col1, col2, col3 = st.columns([0.5, 5, 0.5])
+st.markdown("""
+<div class="info-box">
+    <h2 style="color: #4a90e2; margin-bottom: 1rem; font-family: 'Playfair Display', serif; font-size: 1.6rem;">✨ Save The Date ✨</h2>
+    <p class="quote-text">
+        Two souls, one heart, united in love
+    </p>
+    <p style="margin-top: 1rem; font-size: 1rem;">
+        Join us as we celebrate the beginning of our forever journey together
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
-with col2:
-    st.markdown("""
-    <div class="info-box">
-        <h2 style="color: #4a90e2; margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 3vw, 1.8rem);">✨ Save The Date ✨</h2>
-        <p class="quote-text">
-            Two souls, one heart, united in love
-        </p>
-        <p style="margin-top: 1.5rem; font-size: clamp(1rem, 2vw, 1.2rem);">
-            Join us as we celebrate the beginning of our forever journey together
-        </p>
+# Enhanced Countdown
+wedding_date = datetime(2025, 12, 8)
+days_remaining = (wedding_date - datetime.now()).days
+
+if days_remaining > 0:
+    st.markdown(f"""
+    <div class="countdown-box">
+        <div>🎊 Counting down to our special day 🎊</div>
+        <span class="countdown-number">{days_remaining}</span>
+        <div style="font-size: 1rem;">days to go!</div>
     </div>
     """, unsafe_allow_html=True)
-    
-    # Enhanced Countdown
-    wedding_date = datetime(2025, 12, 8)
-    days_remaining = (wedding_date - datetime.now()).days
-    
-    if days_remaining > 0:
-        st.markdown(f"""
-        <div class="countdown-box">
-            <div>🎊 Counting down to our special day 🎊</div>
-            <span class="countdown-number">{days_remaining}</span>
-            <div style="font-size: clamp(1rem, 2vw, 1.3rem);">days to go!</div>
-        </div>
-        """, unsafe_allow_html=True)
-    elif days_remaining == 0:
-        st.markdown("""
-        <div class="countdown-box">
-            <div style="font-size: clamp(1.8rem, 3.5vw, 2.5rem);">🎉 Today is the day! 🎉</div>
-        </div>
-        """, unsafe_allow_html=True)
+elif days_remaining == 0:
+    st.markdown("""
+    <div class="countdown-box">
+        <div style="font-size: 2rem;">🎉 Today is the day! 🎉</div>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Wedding Video Section
 st.markdown('<div class="divider">❀ ✦ ❀</div>', unsafe_allow_html=True)
 
-col1, col2, col3 = st.columns([0.2, 5, 0.2])
-with col2:
-    st.markdown("<h2 class='section-header' style='font-size: clamp(1.8rem, 4vw, 2.5rem); margin: 1.5rem 0;'>🎥 Our Invitation to You</h2>", unsafe_allow_html=True)
-    
-    VIDEO_ID = "15xm0hwMfXphzThOsnZK7s6uXqXyu_mbh"
-    
-    st.markdown(f"""
-    <div class="video-container">
-        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
-            <iframe src="https://drive.google.com/file/d/{VIDEO_ID}/preview" 
-                    width="100%" 
-                    height="100%" 
-                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
-                    allow="autoplay"
-                    loading="lazy">
-            </iframe>
-        </div>
-        <p style='text-align: center; color: #e8f4f8; margin-top: 1rem; font-size: clamp(0.9rem, 1.8vw, 1rem); font-style: italic;'>
-            Click play to watch our special invitation ▶️
-        </p>
+st.markdown("<h2 class='section-header'>🎥 Our Invitation to You</h2>", unsafe_allow_html=True)
+
+VIDEO_ID = "15xm0hwMfXphzThOsnZK7s6uXqXyu_mbh"
+
+st.markdown(f"""
+<div class="video-container">
+    <div class="video-wrapper">
+        <iframe src="https://drive.google.com/file/d/{VIDEO_ID}/preview" 
+                allow="autoplay"
+                loading="lazy">
+        </iframe>
     </div>
-    """, unsafe_allow_html=True)
+    <p style='text-align: center; color: #e8f4f8; margin-top: 0.75rem; font-size: 0.95rem; font-style: italic;'>
+        Click play to watch our special invitation ▶️
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 # Events Section
 st.markdown('<div class="divider">❀ ✦ ❀</div>', unsafe_allow_html=True)
@@ -518,9 +791,9 @@ col1, col2 = st.columns([1, 1])
 with col1:
     st.markdown("""
     <div class="event-card">
-        <h3 style="color: #4a90e2; font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 1rem;">🏛️ Wedding Ceremony</h3>
-        <p style="color: #ffffff; font-size: clamp(1.1rem, 2.2vw, 1.3rem); font-weight: 600; margin-bottom: 0.5rem;">Veerashaiva Samskrutika Bhavana</p>
-        <p style="color: #e8f4f8; font-size: clamp(0.95rem, 1.8vw, 1.1rem); line-height: 1.6;">
+        <h3 style="color: #4a90e2; font-size: 1.6rem; margin-bottom: 0.75rem;">🏛️ Wedding Ceremony</h3>
+        <p style="color: #ffffff; font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem;">Veerashaiva Samskrutika Bhavana</p>
+        <p style="color: #e8f4f8; font-size: 1rem; line-height: 1.6;">
             Devaraj Urs Layout<br>
             Shimoga, Karnataka 577204
         </p>
@@ -543,9 +816,9 @@ with col1:
 with col2:
     st.markdown("""
     <div class="event-card">
-        <h3 style="color: #4a90e2; font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 1rem;">🏛️ Reception</h3>
-        <p style="color: #ffffff; font-size: clamp(1.1rem, 2.2vw, 1.3rem); font-weight: 600; margin-bottom: 0.5rem;">Shri Veerabhadreshwara Kalyana Mantapa</p>
-        <p style="color: #e8f4f8; font-size: clamp(0.95rem, 1.8vw, 1.1rem); line-height: 1.6;">
+        <h3 style="color: #4a90e2; font-size: 1.6rem; margin-bottom: 0.75rem;">🏛️ Reception</h3>
+        <p style="color: #ffffff; font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem;">Shri Veerabhadreshwara Kalyana Mantapa</p>
+        <p style="color: #e8f4f8; font-size: 1rem; line-height: 1.6;">
             Rattihalli<br>
             Haveri(D), Karnataka 581116
         </p>
@@ -568,8 +841,8 @@ with col2:
 # Footer Contact Section
 st.markdown('<div class="divider">❀ ✦ ❀</div>', unsafe_allow_html=True)
 st.markdown("""
-<div class="info-box" style="margin-top: 2rem; padding: clamp(2rem, 4vw, 3rem);">
-    <h3 style="color: #4a90e2; font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin-bottom: 1.5rem; font-family: 'Playfair Display', serif;">
+<div class="info-box" style="margin-top: 1.5rem; padding: 2rem 1rem;">
+    <h3 style="color: #4a90e2; font-size: 1.8rem; margin-bottom: 1rem; font-family: 'Playfair Display', serif;">
         📞 Contact Us
     </h3>
     <div class="contact-item">
@@ -579,7 +852,7 @@ st.markdown("""
     <div class="closing-message">
         💝 We can't wait to celebrate with you! 💝
     </div>
-    <div style="margin-top: 1.5rem; font-size: clamp(0.95rem, 1.8vw, 1.1rem); color: #e8f4f8;">
+    <div style="margin-top: 1rem; font-size: 1rem; color: #e8f4f8;">
         Your presence will make our day even more special
     </div>
 </div>
